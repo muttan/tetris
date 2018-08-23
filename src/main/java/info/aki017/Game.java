@@ -43,7 +43,6 @@ public class Game extends BasicGame {
         g.drawString("Hello, " + Integer.toString(counter) + "!", 50, 50);
         renderStage(g);
         field.render(g);
-
     }
 
     @Override

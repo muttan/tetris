@@ -49,13 +49,15 @@ public class Field {
 
         //Z,Xで回転
         if (container.getInput().isKeyPressed(Input.KEY_Z)) {
-            rotation = (rotation + 90) % 360;
-            System.out.println(rotation);
+            if (isFree((rotation + 90) % 360)) {
+                rotation = (rotation + 90) % 360;
+            }
         }
         if (container.getInput().isKeyPressed(Input.KEY_X)) {
-            rotation = (rotation + 270) % 360;
+            if (isFree((rotation + 270) % 360)) {
+                rotation = (rotation + 270) % 360;
+            }
         }
-
 
         //自然落下
         if (time < 500) {
@@ -73,10 +75,7 @@ public class Field {
             pointY = 0;
             pointX = WIDTH / 2;
             current = mino[(int) (Math.random() * 100) % mino.length];
-
         }
-
-
     }
 
     public void render(Graphics g) {
@@ -115,10 +114,18 @@ public class Field {
         g.fillRect(356 + x * 32, 64 + y * 32, 32, 32);
     }
 
+    private boolean isFree(int rot) {
+        return isFree(pointX, pointY, rot);
+    }
+
     private boolean isFree(int x, int y) {
+        return isFree(x, y, rotation);
+    }
+
+    private boolean isFree(int x, int y, int rot) {
         Vector2 v;
         for (Vector2 vector2 : current.blocks()) {
-            v = vector2.rotate(rotation);
+            v = vector2.rotate(rot);
             if (x + v.x < 0) {
                 return false;
             }
